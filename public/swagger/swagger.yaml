@@ -1,0 +1,93 @@
+openapi: 3.0.2
+info:
+  title: Template Laravel
+  description: Swagger for template laravel
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api
+    description: Development Server
+tags:
+  - name: Auth
+    description: Everything about auth
+  - name: Users
+    description: Everything about user
+security:
+  - BearerAuth: []
+paths:
+  /tokens/create:
+    post:
+      summary: Get access token
+      tags:
+        - Auth
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/BasicResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          token:
+                            type: string
+  /users:
+    get:
+      summary: users
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/BasicResponse"
+components: # component here
+  schemas:
+    BasicResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Success"
+    DateTime:
+      type: string
+      example: "2006-01-02T15:04:05Z"
+  parameters:
+    Limit:
+      in: query
+      name: limit
+      schema:
+        type: integer
+    Offset:
+      in: query
+      name: offset
+      schema:
+        type: integer
+  responses:
+    InternalServerError:
+      description: Internal Server Error
+  securitySchemes:
+    BearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

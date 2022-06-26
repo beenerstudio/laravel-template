@@ -1,0 +1,11 @@
+{
+    "php.validate.executablePath": "/usr/bin/php",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false,
+    "[php]": {
+        "editor.formatOnSave": true
+    },
+    "[json]": {
+        "editor.formatOnSave": true,
+    }
+}
